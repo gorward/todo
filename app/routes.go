@@ -30,14 +30,14 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	router := mux.NewRouter(nil)
 
 	fs := http.FileServer(http.Dir("public"))
-	router.GET("/", fs)
+	router.Get("/", fs)
 
-	router.GROUP("/api", func(router mux.Router) {
-		router.GET("/todolist", getTodoListHandler)
-		router.GET("/todolist/{id}", getTodoListIDHandler)
-		router.PUT("/todolist/{tlid}/todo", createTodoHandler)
-		router.PATCH("/todolist/{tlid}/todo/{tid}", updateTodoHandler)
-		router.DELETE("/todolist/{tlid}/todo/{tid}", deleteTodoHandler)
+	router.Group("/api", func(router mux.Router) {
+		router.Get("/todolist", getTodoListHandler)
+		router.Get("/todolist/{id}", getTodoListIDHandler)
+		router.Put("/todolist/{tlid}/todo", createTodoHandler)
+		router.Patch("/todolist/{tlid}/todo/{tid}", updateTodoHandler)
+		router.Delete("/todolist/{tlid}/todo/{tid}", deleteTodoHandler)
 	})
 
 	router.ServeHTTP(w, r)
