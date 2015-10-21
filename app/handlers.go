@@ -73,6 +73,25 @@ func (ct CreateTodo) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	RespondData(w, "200")
 }
 
+// DeleteTodoList deletes a todo list
+type DeleteTodo struct {
+	TodoListRepository TodoListInterface
+}
+
+func (dtl DeleteTodo) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	tlID := mux.Vars(r)["tlid"]
+	tID := mux.Vars(r)["tid"]
+
+	err := dtl.TodoListRepository.RemoveTodo(tlID, tID)
+
+	if err != nil {
+		RespondErr(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondData(w, "200")
+}
+
 // UpdateTodo updates todo item
 type UpdateTodo struct {
 	TodoListRepository TodoListInterface
